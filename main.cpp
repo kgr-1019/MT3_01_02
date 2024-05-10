@@ -20,14 +20,6 @@ struct Sphere
 // プロトタイプ宣言
 //void DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix);
 void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix);
-// 平行移動行列
-Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
-//// X軸回転行列
-Matrix4x4 MakeRotateXMatrix(const Vector3& rotate);
-// Y軸回転行列
-Matrix4x4 MakeRotateYMatrix(Vector3 rotate);
-// Z軸回転行列
-Matrix4x4 MakeRotateZMatrix(Vector3 rotate);
 // XYZ合成
 Matrix4x4 Multiply(const Matrix4x4& rotateX, const Matrix4x4& rotateYZ);
 // アフィン変換
@@ -44,67 +36,6 @@ Vector3 Transform(const Vector3& point, const Matrix4x4& transformMatrix);
 
 
 // 関数の定義
-
-// 平行移動行列
-Matrix4x4 MakeTranslateMatrix(const Vector3& translate)
-{
-	Matrix4x4 result{};
-
-	for (int i = 0; i < 4; i++)
-	{
-		result.m[i][i] = 1;
-	}
-	result.m[3][0] = translate.x;
-	result.m[3][1] = translate.y;
-	result.m[3][2] = translate.z;
-
-	return result;
-}
-
-// X軸回転行列
-Matrix4x4 MakeRotateXMatrix(float rotate)
-{
-	Matrix4x4 result{};
-
-	result.m[1][1] = std::cos(rotate);
-	result.m[1][2] = std::sin(rotate);
-	result.m[2][1] = -std::sin(rotate);
-	result.m[2][2] = std::cos(rotate);
-	result.m[0][0] = 1;
-	result.m[3][3] = 1;
-
-	return result;
-}
-
-// Y軸回転行列
-Matrix4x4 MakeRotateYMatrix(float rotate)
-{
-	Matrix4x4 result{};
-
-	result.m[0][0] = std::cos(rotate);
-	result.m[0][2] = -std::sin(rotate);
-	result.m[1][1] = 1;
-	result.m[2][0] = std::sin(rotate);
-	result.m[2][2] = std::cos(rotate);
-	result.m[3][3] = 1;
-
-	return result;
-}
-
-// Z軸回転行列
-Matrix4x4 MakeRotateZMatrix(float rotate)
-{
-	Matrix4x4 result{};
-
-	result.m[0][0] = std::cos(rotate);
-	result.m[0][1] = std::sin(rotate);
-	result.m[1][0] = -std::sin(rotate);
-	result.m[1][1] = std::cos(rotate);
-	result.m[2][2] = 1;
-	result.m[3][3] = 1;
-
-	return result;
-}
 
 // XYZ合成
 Matrix4x4 Multiply(const Matrix4x4& rotateX, const Matrix4x4& rotateYZ)
@@ -290,6 +221,7 @@ Vector3 Transform(const Vector3& point, const Matrix4x4& transformMatrix)
 
 	return result;
 }
+
 
 
 // Gridを表示する疑似コード
