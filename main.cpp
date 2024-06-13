@@ -356,26 +356,26 @@ void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, con
 		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; ++lonIndex)
 		{
 			float lon = lonIndex * kLonEvery;// 現在の経度Φ
-			
+
 			// ワールド座標系での頂点を求める
 			a = {
-				(sphere.center.x + sphere.radius) * std::cos(lat) * std::cos(lon),
-				(sphere.center.y + sphere.radius) * std::sin(lat),
-				(sphere.center.z + sphere.radius) * std::cos(lat) * std::sin(lon)
+				(sphere.radius) * std::cos(lat) * std::cos(lon) + sphere.center.x,
+				(sphere.radius) * std::sin(lat) + sphere.center.y,
+				(sphere.radius) * std::cos(lat) * std::sin(lon) + sphere.center.z
 			};
 
 			b = {
-				(sphere.center.x + sphere.radius) * std::cos(lat + kLatEvery) * std::cos(lon),
-				(sphere.center.y + sphere.radius) * std::sin(lat + kLatEvery),
-				(sphere.center.z + sphere.radius) * std::cos(lat + kLatEvery) * std::sin(lon)
+				(sphere.radius) * std::cos(lat + kLatEvery) * std::cos(lon) + sphere.center.x,
+				(sphere.radius) * std::sin(lat + kLatEvery) + sphere.center.y,
+				(sphere.radius) * std::cos(lat + kLatEvery) * std::sin(lon) + sphere.center.z
 			};
 
 			c = {
-				(sphere.center.x + sphere.radius) * std::cos(lat) * std::cos(lon + kLonEvery),
-				(sphere.center.y + sphere.radius) * std::sin(lat),
-				(sphere.center.z + sphere.radius) * std::cos(lat) * std::sin(lon + kLonEvery)
+				(sphere.radius) * std::cos(lat) * std::cos(lon + kLonEvery) + sphere.center.x,
+				(sphere.radius) * std::sin(lat) + sphere.center.y,
+				(sphere.radius) * std::cos(lat) * std::sin(lon + kLonEvery) + sphere.center.z
 			};
-			
+
 			// a,b,cをScreen座標系まで変換
 			// スクリーン座標系まで変換をかける
 			Matrix4x4 worldMatrixA = MakeAffineMatrix({ 1.0f,1.0f,1.0f }, { 0.0f,0.0f,0.0f }, a);
@@ -396,8 +396,8 @@ void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, con
 
 
 			// ab,acで線を引く
-			Novice::DrawLine((int)screenVerticesA.x, (int)screenVerticesA.y, (int)screenVerticesB.x, (int)screenVerticesB.y, BLACK);
-			Novice::DrawLine((int)screenVerticesA.x, (int)screenVerticesA.y, (int)screenVerticesC.x, (int)screenVerticesC.y, BLACK);
+			Novice::DrawLine((int)screenVerticesA.x, (int)screenVerticesA.y, (int)screenVerticesB.x, (int)screenVerticesB.y, WHITE);
+			Novice::DrawLine((int)screenVerticesA.x, (int)screenVerticesA.y, (int)screenVerticesC.x, (int)screenVerticesC.y, WHITE);
 		}
 	}
 }
